@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: ga4_data
+    database: dlthub-analytics
+    schema: test_alena
+    tables:
+      - name: _dlt_loads
+      - name: _dlt_version
+        columns:
+          - name: version
+            tests:
+              - dbt_expectations.expect_column_to_exist:
+                  config:
+                    tags: prerequisites
