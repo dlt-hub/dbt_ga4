@@ -2,22 +2,22 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dlt_dbt_ga4'
+name: 'dbt_transform'
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'dlt_dbt_ga4'
+profile: 'dbt_transform'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
-model-paths: ["dlt_dbt_ga4/models"]
-analysis-paths: ["dlt_dbt_ga4/analyses"]
-test-paths: ["dlt_dbt_ga4/tests"]
-seed-paths: ["dlt_dbt_ga4/seeds"]
-macro-paths: ["dlt_dbt_ga4/macros"]
-snapshot-paths: ["dlt_dbt_ga4/snapshots"]
+model-paths: ["dbt_transform/models"]
+analysis-paths: ["dbt_transform/analyses"]
+test-paths: ["dbt_transform/tests"]
+seed-paths: ["dbt_transform/seeds"]
+macro-paths: ["dbt_transform/macros"]
+snapshot-paths: ["dbt_transform/snapshots"]
 
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"

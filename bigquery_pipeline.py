@@ -70,13 +70,13 @@ if __name__ == "__main__":
     # get runner, optionally pass the venv
     dbt = dlt.dbt.package(
         pipeline,
-        "dlt_dbt_ga4",
+        "dbt_transform",
         venv=venv
     )
 
     # run the models and collect any info
     # If running fails, the error will be raised with full stack trace
-    models = dbt.run_all()
+    models = dbt.run_all(additional_vars={"database_name": "dlthub-analytics", "dataset_name": "test_alena"})
 
     # on success print outcome
     for m in models:

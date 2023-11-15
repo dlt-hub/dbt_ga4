@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: dlt_metadata
+    database: "{{ var('database_name')}}"
+    schema: "{{ var('dataset_name')}}"
+    tables:
+      - name: _dlt_loads
+      - name: _dlt_version
+        columns:
+          - name: version
+            tests:
+              - dbt_expectations.expect_column_to_exist
