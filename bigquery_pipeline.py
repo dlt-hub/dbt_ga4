@@ -82,12 +82,12 @@ if __name__ == "__main__":
     pipeline = dlt.pipeline(
         pipeline_name="bigquery_pipeline",
         destination="bigquery",
-        dataset_name="test_alena",
+        dataset_name="test_alena_1",
     )
     # run the pipeline with your parameters
-    load_info = pipeline.run(data_source)
+    # load_info = pipeline.run(data_source, write_disposition="replace")
     # pretty print the information on data that was loaded
-    print(load_info)
+    # print(load_info)
 
     models = transform_data(pipeline)
 
