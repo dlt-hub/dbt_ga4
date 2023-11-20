@@ -5,7 +5,7 @@
 }}
 
 SELECT
-    CONCAT(event_id, '-' , traffic_source__name) as traffic_sk,
+    {{ dbt.concat(["event_id", "'-'" , "traffic_source__name"]) }} as traffic_sk,
     event_id,
     traffic_source__name,
     traffic_source__medium,

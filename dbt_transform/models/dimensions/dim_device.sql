@@ -1,5 +1,5 @@
 SELECT
-    CONCAT(event_id, '-', device__mobile_brand_name) as device_sk,
+    {{ dbt.concat(["event_id", "'-'", "device__mobile_brand_name"]) }} as device_sk,
     event_id,
     device__category,
     device__mobile_brand_name,

@@ -1,5 +1,5 @@
 SELECT
-    CONCAT(event_id,'-', geo__city) as geo_sk,
+    {{ dbt.concat(["event_id","'-'", "geo__city"]) }} as geo_sk,
     event_id,
     geo__city as city,
     geo__country as country,
