@@ -68,6 +68,7 @@ def transform_data(
         additional_vars={
             "database_name": credentials_info["project_id"],
             "dataset_name": pipeline.dataset_name,
+            "paid_sources": ["(referral)"]
         }
     )
 
