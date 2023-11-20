@@ -1,40 +1,13 @@
+{{
+    config(
+        materialized='table',
+    )
+}}
+
 SELECT
     _dlt_id as event_id,
-    event_date,
-    event_timestamp,
-    event_name,
-    event_bundle_sequence_id,
-    user_pseudo_id,
-    privacy_info__uses_transient_token,
-    user_first_touch_timestamp,
-    user_ltv__revenue,
-    user_ltv__currency,
-    device__category,
-    device__mobile_brand_name,
-    device__mobile_model_name,
-    device__mobile_marketing_name,
-    device__operating_system,
-    device__operating_system_version,
-    device__language,
-    device__is_limited_ad_tracking,
-    device__web_info__browser,
-    device__web_info__browser_version,
-    device__web_info__hostname,
-    geo__city,
-    geo__country,
-    geo__continent,
-    geo__region,
-    geo__sub_continent,
-    geo__metro,
-    traffic_source__name,
-    traffic_source__medium,
-    traffic_source__source,
-    stream_id,
-    platform,
-    is_active_user,
-    collected_traffic_source__manual_campaign_name,
-    collected_traffic_source__manual_source,
-    collected_traffic_source__manual_medium,
-    collected_traffic_source__manual_term
+    {% for col in get_filtered_columns(from=source("ga4_select_star", "events"), except=["_dlt_id"])  %}
+    {{ col }} as {{ col }},
+    {% endfor %}
 FROM
-    {{ source("ga4_select_star","events") }}
+    {{ source("ga4_select_star", "events") }}
