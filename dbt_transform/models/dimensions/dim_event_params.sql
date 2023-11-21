@@ -1,9 +1,3 @@
-{{
-    config(
-        materialized='table',
-    )
-}}
-
 SELECT
     event_id,
     event_name,

@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  # facts
+  - name: fact_events
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+  - name: sessions
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null

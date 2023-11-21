@@ -1,9 +1,3 @@
-{{
-    config(
-        materialized='table',
-    )
-}}
-
 WITH CTE AS (
   SELECT
     e._dlt_id as event_id,

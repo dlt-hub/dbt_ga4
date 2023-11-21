@@ -65,6 +65,7 @@ def transform_data(
     # run the models and collect any info
     # If running fails, the error will be raised with full stack trace
     models = dbt.run_all(
+        run_params=("--fail-fast", "--full-refresh"),
         additional_vars={
             "database_name": credentials_info["project_id"],
             "dataset_name": pipeline.dataset_name,

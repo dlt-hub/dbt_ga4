@@ -1,9 +1,3 @@
-{{
-    config(
-        materialized='table',
-    )
-}}
-
 SELECT
     {{ dbt.concat(["event_id", "'-'" , "traffic_source__name"]) }} as traffic_sk,
     event_id,

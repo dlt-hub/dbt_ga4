@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  # dimensions
+  - name: dim_device
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+  - name: dim_event_params
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+  - name: dim_geography
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+  - name: dim_page
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+  - name: dim_traffic_source
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+  - name: dim_user
+    columns:
+      - name: user_pseudo_id
+        tests:
+          - unique
+          - not_null
+
+
