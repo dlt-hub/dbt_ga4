@@ -12,5 +12,4 @@ SELECT
     device__web_info__browser,
     device__web_info__browser_version,
     device__web_info__hostname
-FROM
-{{ ref("stg_events") }}
+FROM {{ ref("stg_events") }}

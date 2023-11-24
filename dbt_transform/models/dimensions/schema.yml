@@ -8,12 +8,6 @@ models:
         tests:
           - unique
           - not_null
-  - name: dim_event_params
-    columns:
-      - name: event_id
-        tests:
-          - unique
-          - not_null
   - name: dim_geography
     columns:
       - name: event_id

@@ -1,6 +1,6 @@
 SELECT
     _dlt_parent_id as event_id,
-    key as event_name,
+    'key' as event_name,
     value__int_value as int_value,
     value__string_value as string_value
 

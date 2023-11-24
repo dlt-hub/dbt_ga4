@@ -1,0 +1,120 @@
+ga4_schema_redshift:
+  target: analytics
+  outputs:
+    analytics:
+      type: redshift
+      host: "{{ env_var('PG_HOST') }}"
+      user: "{{ env_var('PG_USER') }}"
+      password: "{{ env_var('PG_PASSWORD') }}"
+      port: "{{ env_var('PG_PORT', 5439) | as_number }}"
+      dbname: "{{ env_var('PG_DATABASE_NAME') }}"
+      schema: "{{ var('dataset_name') }}"
+      threads: 4
+      keepalives_idle: 0 # default 0, indicating the system default
+      connect_timeout: 10 # default 10 seconds
+      # search_path: public # optional, not recommended
+      #sslmode: [optional, set the sslmode used to connect to the database (in case this parameter is set, will look for ca in ~/.postgresql/root.crt)]
+      ra3: true # enables cross-database sources
+
+ga4_schema_mssql:
+  target: analytics
+  outputs:
+    analytics:
+      type: sqlserver
+      driver: 'ODBC Driver 18 for SQL Server'
+      server: "{{ env_var('MSSQL_SERVER') }}"
+      user: "{{ env_var('MSSQL_USER') }}"
+      password: "{{ env_var('MSSQL_PASSWORD') }}"
+      port: "{{ env_var('MSSQL_PORT', 1433) | as_number) }}"
+      database: "{{ env_var('MSSQL_DATABASE_NAME') }}"
+      schema:  "{{ var('dataset_name') }}"
+      threads: 4
+      keepalives_idle: 0 # default 0, indicating the system default
+      connect_timeout: 10 # default 10 seconds
+      # search_path: public # optional, not recommended
+      #sslmode: [optional, set the sslmode used to connect to the database (in case this parameter is set, will look for ca in ~/.postgresql/root.crt)]
+      ra3: true # enables cross-database sources
+
+ga4_schema_snowflake:
+  target: analytics
+  outputs:
+    analytics:
+      type: snowflake
+      account: "{{ env_var('SF_ACCOUNT_ID') }}"
+
+      # User/password auth
+      user: "{{ env_var('SF_USER') }}"
+      password: "{{ env_var('SF_PASSWORD') }}"
+
+      role: "{{ env_var('SF_ROLE') }}"
+      database: "{{ env_var('SF_DATABASE_NAME') }}"
+      warehouse: "{{ env_var('SF_WAREHOUSE') }}"
+      schema:  "{{ var('dataset_name') }}"
+      threads: 4
+
+      # optional
+      connect_retries: 0 # default 0
+      connect_timeout: 10 # default: 10
+      retry_on_database_errors: False # default: false
+      retry_all: False  # default: false
+      reuse_connections: False # default: false (available v1.4+)
+
+ga4_schema_snowflake_key_pair:
+  target: analytics
+  outputs:
+    analytics:
+      type: snowflake
+      account: "{{ env_var('SF_ACCOUNT_ID') }}"
+
+      # User/password auth
+      user: "{{ env_var('SF_USER') }}"
+      password: "{{ env_var('SF_PASSWORD') }}"
+
+     # Keypair config
+      private_key_path: "{{ env_var('SF_KEY_FILE_PATH') }}"
+      # or private_key instead of private_key_path
+      private_key_passphrase: "{{ env_var('SF_KEY_PASSPHRASE') }}"
+
+      role: "{{ env_var('SF_ROLE') }}"
+      database: "{{ env_var('SF_DATABASE_NAME') }}"
+      warehouse: "{{ env_var('SF_WAREHOUSE') }}"
+      schema:  "{{ var('dataset_name') }}"
+      threads: 4
+
+      # optional
+      connect_retries: 0 # default 0
+      connect_timeout: 10 # default: 10
+      retry_on_database_errors: False # default: false
+      retry_all: False  # default: false
+      reuse_connections: False # default: false (available v1.4+)
+
+ga4_schema_bigquery:
+  target: analytics
+  outputs:
+    analytics:
+      type: bigquery
+      method: service-account-json
+      project: "{{ env_var('BQ_PROJECT_ID') }}"
+      schema: "{{ var('dataset_name') }}"
+      keyfile_json:
+        type: service_account
+        project_id: "{{ env_var('BQ_PROJECT_ID') }}"
+        private_key: "{{ env_var('BQ_CRED_PRIVATE_KEY') }}"
+        client_email: "{{ env_var('BQ_CRED_CLIENT_EMAIL') }}"
+        token_uri: "{{ env_var('BQ_CRED_TOKEN_URI') }}"
+      threads: 4
+      keepalives_idle: 0 # default 0, indicating the system default
+      connect_timeout: 10 # default 10 seconds
+
+ga4_schema_bigquery_service_file:
+  target: analytics
+  outputs:
+    analytics:
+      type: bigquery
+      method: service-account
+      project: "{{ env_var('BQ_PROJECT_ID') }}"
+      schema: "{{ var('dataset_name') }}"
+      keyfile: "{{ env_var('BQ_KEY_FILE_PATH') }}"
+      threads: 4
+      keepalives_idle: 0 # default 0, indicating the system default
+      connect_timeout: 10 # default 10 seconds

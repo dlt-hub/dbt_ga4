@@ -22,8 +22,10 @@ models:
           - unique
           - not_null
   - name: stg_events
+    description: This table contains clickstream events from the marketing website
     columns:
       - name: event_id
+        description: This is a unique identifier for the event
         tests:
           - unique
           - not_null

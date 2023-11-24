@@ -7,7 +7,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'dbt_transform'
+profile: 'ga4_schema_bigquery'
 
 vars:
   paid_sources: ['(direct)']

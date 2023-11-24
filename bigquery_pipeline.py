@@ -1,6 +1,5 @@
 import dlt
 from dlt.common import pendulum
-from dlt.common.configuration.inject import with_config
 from google.cloud import bigquery
 from google.oauth2 import service_account
 from tqdm import tqdm
@@ -48,10 +47,8 @@ def bigquery_table_resource(credentials_info, table=None, month=last_month, year
         yield {key: value for key, value in row.items()}
 
 
-@with_config(sections=("sources", "bigquery_pipeline"))
 def transform_data(
     pipeline,
-    credentials_info=dlt.secrets.value,
 ):
     # make or restore venv for dbt, using latest dbt version
     # NOTE: if you have dbt installed in your current environment, just skip this line
@@ -67,7 +64,6 @@ def transform_data(
     models = dbt.run_all(
         run_params=("--fail-fast", "--full-refresh"),
         additional_vars={
-            "database_name": credentials_info["project_id"],
             "dataset_name": pipeline.dataset_name,
             "paid_sources": ["(referral)"]
         }
@@ -80,11 +76,13 @@ if __name__ == "__main__":
     # Load tables with the standalone table resource
     data_source = bigquery_source(tables=["events"])
 
+    destination = "bigquery"
+
     # configure the pipeline with your destination details
     pipeline = dlt.pipeline(
-        pipeline_name="bigquery_pipeline",
-        destination="bigquery",
-        dataset_name="test_alena_1",
+        pipeline_name=f"bigquery_dbt_pipeline_1",
+        destination=destination,
+        dataset_name="test_alena",
     )
     # run the pipeline with your parameters
     # load_info = pipeline.run(data_source, write_disposition="replace")

@@ -2,7 +2,6 @@ version: 2
 
 sources:
   - name: dlt_metadata
-    database: "{{ var('database_name') }}"
     schema: "{{ var('dataset_name') }}"
     tables:
       - name: _dlt_loads
@@ -13,8 +12,10 @@ sources:
               - dbt_expectations.expect_column_to_exist
 
   - name: ga4_select_star
-    database: "{{ var('database_name') }}"
     schema: "{{ var('dataset_name') }}"
     tables:
       - name: events
       - name: events__event_params
+        columns:
+          - name: key
+            quote: true
