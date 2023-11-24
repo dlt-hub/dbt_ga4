@@ -3,30 +3,31 @@ version: 2
 models:
   # staging
   - name: load_ids
-    description: "A list of currently loaded load ids"
+    description: "A list of currently loaded load ids."
     columns:
       - name: load_id
         tests:
           - unique
           - not_null
-  - name: stg_event_params_original
-    columns:
-      - name: event_id
-        tests:
-          - unique
-          - not_null
-  - name: stg_event_params_unpacked
-    columns:
-      - name: event_id
-        tests:
-          - unique
-          - not_null
   - name: stg_events
-    description: This table contains clickstream events from the marketing website
+    description: "This table contains clickstream events from the marketing website."
     columns:
       - name: event_id
         description: This is a unique identifier for the event
         tests:
           - unique
           - not_null
-
+  - name: stg_event_params_original
+    description: "This table contains event parameters, which let you capture information about an event. It's written as key-value pairs, where the value on the left is the event parameter name and the value of the right is the event parameter value."
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_event_params_unpacked
+    description: "This table contains unpacked event parameters. The model transforms parameter values based on their types (integer or string) and provides a concise summary of parameter values associated with each event."
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null

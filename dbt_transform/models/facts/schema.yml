@@ -3,14 +3,51 @@ version: 2
 models:
   # facts
   - name: fact_events
+    description: "This model provides a comprehensive view of user engagement, enabling analysis of revenue, acquisition channels, session engagement, and scroll behavior."
     columns:
       - name: event_id
+        description: "Identifier for each event."
         tests:
           - unique
           - not_null
+      - name: event_timestamp
+        description: "Timestamp when the event occurred."
+      - name: event_bundle_sequence_id
+        description: "Sequence ID associated with event bundles."
+      - name: user_first_touch_timestamp
+        description: "Timestamp when the user first interacted with the platform."
+      - name: user_ltv__revenue
+        description: "Revenue associated with the user's lifetime value."
+      - name: user_pseudo_id
+        description: "Pseudo-identifier for each user."
+      - name: medium
+        description: "Medium or channel through which the event occurred."
+      - name: source
+        description: "Source of the event, providing details about where it originated."
+      - name: campaign
+        description: "Campaign associated with the event."
+      - name: term
+        description: "Term associated with the event."
+      - name: percent_scrolled
+        description: "Percentage of scrolling achieved during the event."
+      - name: engaged_session_event
+        description: "Indicates if the event is associated with an engaged session."
+
   - name: sessions
+    description: "The model extracts key engagement metrics from the 'stg_event_params_unpacked' table. This model provides insights into session-level engagement, capturing details about session activity, duration, and entrances, facilitating analysis of user interactions and session quality."
     columns:
       - name: event_id
+        description: "Identifier for each event."
         tests:
           - unique
           - not_null
+      - name: ga_session_id
+        description: "Google Analytics session ID associated with the event."
+      - name: session_engaged
+        description: "Indicates whether the session is considered engaged."
+      - name: ga_session_number
+        description: "Google Analytics session number."
+      - name: engagement_time_msec
+        description: "Total engagement time in milliseconds during the session."
+      - name: entrances
+        description: "Number of entrances during the session."

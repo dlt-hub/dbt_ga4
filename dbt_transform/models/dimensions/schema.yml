@@ -3,34 +3,123 @@ version: 2
 models:
   # dimensions
   - name: dim_device
+    description: "The model contains all the information about the users' device, the data is taken from the 'stg_events' table."
     columns:
+      - name: device_sk
+        description: "Unique identifier combining event_id and device mobile brand name."
       - name: event_id
+        description: "Identifier for each event."
         tests:
           - unique
           - not_null
+      - name: device__category
+        description: "Category of the device."
+      - name: device__mobile_brand_name
+        description: "Brand name of the mobile device."
+      - name: device__mobile_model_name
+        description: "Model name of the mobile device."
+      - name: device__mobile_marketing_name
+        description: "Marketing name of the mobile device."
+      - name: device__operating_system
+        description: "Operating system of the device."
+      - name: device__operating_system_version
+        description: "Operating system version of the device."
+      - name: device__language
+        description: "Language setting of the device."
+      - name: device__is_limited_ad_tracking
+        description: "Flag indicating whether ad tracking is limited on the device."
+      - name: device__web_info__browser
+        description: "Web browser used on the device."
+      - name: device__web_info__browser_version
+        description: "Version of the web browser used on the device."
+      - name: device__web_info__hostname
+        description: "Hostname from web browsing information on the device."
+
   - name: dim_geography
+    description: "The model consolidates event data with geographical information from the 'stg_events' table. This model provides insights into the geographic aspects of events, including city, country, continent, region, sub-continent, and metro information."
     columns:
+      - name: geo_sk
+        description: "Unique identifier combining event_id and geo city."
       - name: event_id
+        description: "Identifier for each event."
         tests:
           - unique
           - not_null
+      - name: city
+        description: "City associated with the event's geographical location."
+      - name: country
+        description: "Country associated with the event's geographical location."
+      - name: continent
+        description: "Continent associated with the event's geographical location."
+      - name: region
+        description: "Region associated with the event's geographical location."
+      - name: geo__sub_continent
+        description: "Sub-continent associated with the event's geographical location."
+      - name: metro
+        description: "Metropolitan area associated with the event's geographical location."
+
   - name: dim_page
+    description: "This model provides insights into user interactions with pages, helping to analyze and understand user behavior on the platform."
     columns:
       - name: event_id
+        description: "Identifier for each event."
         tests:
           - unique
           - not_null
+      - name: page_path
+        description: "The path of the page associated with the event."
+      - name: page_title
+        description: "Title of the page associated with the event."
+      - name: page_referrer
+        description: "Referrer information for the page associated with the event."
+      - name: page_location
+        description: "Location information of the page associated with the event."
+
   - name: dim_traffic_source
+    description: "The model contains traffic information from the 'stg_events' table. The model provides a comprehensive view of user acquisition and marketing performance."
     columns:
+      - name: traffic_sk
+        description: "Unique identifier combining event_id and traffic source name."
       - name: event_id
+        description: "Identifier for each event."
         tests:
           - unique
           - not_null
+      - name: traffic_source__name
+        description: "Name of the traffic source associated with the event."
+      - name: traffic_source__medium
+        description: "Medium or channel through which traffic was sourced."
+      - name: traffic_source__source
+        description: "Source of the traffic, providing details about where the traffic originated."
+      - name: custom_source
+        description: "Custom classification of the traffic source as 'paid' or 'organic'."
+
   - name: dim_user
+    description: "The model derives insights into user sessions by combining data from 'stg_events' and 'stg_event_params_unpacked'. It calculates session metrics such as the number of sessions ('nr_of_sessions'), the first and last seen timestamps, and the corresponding events and page titles associated with these timestamps. The model provides a comprehensive summary of user engagement, including details about the usage of transient tokens, user lifetime value currency, and session-specific information."
     columns:
       - name: user_pseudo_id
+        description: "Pseudo-identifier for each user."
         tests:
           - unique
           - not_null
-
+      - name: privacy_info__uses_transient_token
+        description: "Indicates whether privacy information uses a transient token for the user."
+      - name: user_ltv__currency
+        description: "Currency associated with the user's lifetime value."
+      - name: ga_session_id
+        description: "Google Analytics session ID."
+      - name: nr_of_sessions
+        description: "Number of sessions for the user."
+      - name: first_seen_timestamp
+        description: "Timestamp when the user was first seen in a session."
+      - name: first_seen_event
+        description: "Event name associated with the first seen timestamp."
+      - name: first_seen_page
+        description: "Page title associated with the first seen timestamp."
+      - name: last_seen_timestamp
+        description: "Timestamp when the user was last seen in a session."
+      - name: last_seen_event
+        description: "Event name associated with the last seen timestamp."
+      - name: last_seen_page
+        description: "Page title associated with the last seen timestamp."
 
