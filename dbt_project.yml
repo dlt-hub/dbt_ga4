@@ -10,16 +10,10 @@ config-version: 2
 profile: 'ga4_schema_redshift'
 
 vars:
+  schema_name: GA4_DATA
   paid_sources: ['reddit.com']
-  event_params:
-    - 'term'
-    - 'medium'
-    - 'source'
-    - 'percent_scrolled'
-    - 'engaged_session_event'
-    - 'campaign'
-    - 'ga_session_id'
-    - 'page_title'
+  extra_event_params:
+    - 'page_referrer'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -31,9 +25,8 @@ seed-paths: ["dbt_transform/seeds"]
 macro-paths: ["dbt_transform/macros"]
 snapshot-paths: ["dbt_transform/snapshots"]
 
-target-path: "dbt_transform/target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
-  - "dbt_transform/target"
+clean-targets: # directories to be removed by `dbt clean`
+  - "target"
   - "dbt_packages"
 
 
