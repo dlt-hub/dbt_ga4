@@ -1,3 +1,24 @@
+{{
+    config(
+        materialized='table',
+    )
+}}
+
+{% set default_event_params = [
+    "term",
+    "medium",
+    "source",
+    "percent_scrolled",
+    "engaged_session_event",
+    "engagement_time_msec",
+    "entrances",
+    "campaign",
+    "ga_session_id",
+    "ga_session_number",
+    "page_title",
+    "session_engaged"
+]%}
+
 WITH CTE AS (
   SELECT
     e.event_id,
@@ -15,7 +36,14 @@ SELECT
     event_date,
     event_timestamp,
     event_name
-    {% for param in var('event_params') %}
+    {% for param in default_event_params %}
+    , MAX(
+        CASE
+            WHEN event_name = '{{ param }}' THEN param_value
+        END
+    ) as {{ param }}
+    {% endfor %}
+    {% for param in var('extra_event_params') %}
     , MAX(
         CASE
             WHEN event_name = '{{ param }}' THEN param_value
