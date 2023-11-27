@@ -5,7 +5,7 @@ SELECT
     traffic_source__medium,
     traffic_source__source,
     CASE
-        WHEN traffic_source__name IN ({{ "'" + var('paid_sources')|join("', '") + "'" }}) THEN 'paid'
+        WHEN traffic_source__source IN ({{ "'" + var('paid_sources')|join("', '") + "'" }}) THEN 'paid'
         ELSE 'organic'
     END as custom_source
 FROM

@@ -65,7 +65,7 @@ def transform_data(
         run_params=("--fail-fast", "--full-refresh"),
         additional_vars={
             "dataset_name": pipeline.dataset_name,
-            "paid_sources": ["(referral)"]
+            "paid_sources": ['reddit.com']
         }
     )
 
