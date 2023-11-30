@@ -1,5 +1,14 @@
 # Google Analytics dbt package
 
+## Use case of the package
+
+__You are using GA4 events in a different database than Bigquery__
+* This package comes with its own ingestion pipeline to copy data from GA4 Bigquery events export into one of [these](https://dlthub.com/docs/dlt-ecosystem/destinations/) destinations.
+* The dbt package uses cross-db compatibility macros and was tested on Redshift, Athena, Snowflake, Mssql.
+* The package creates stateful entities for users, sessions, to enable describing the event stream and answer questions like "What was the source of the user who clicked out on X"
+* The package contains a small configurator that enables you to bring event parameters (which are their own table) into the event row for simpler usage.
+
+
 ## Installation
 
 dbt version required: >=1.7.0
