@@ -4,18 +4,18 @@
 
 __You are using GA4 events in a different database than Bigquery__
 * This package comes with its own ingestion pipeline to copy data from GA4 Bigquery events export into one of [these](https://dlthub.com/docs/dlt-ecosystem/destinations/) destinations.
-* The dbt package uses cross-db compatibility macros and was tested on Redshift, Athena, Snowflake, Mssql.
-* The package creates stateful entities for users, sessions, to enable describing the event stream and answer questions like "What was the source of the user who clicked out on X"
+* The dbt package uses cross-db compatibility macros and was tested on Redshift, Athena, Snowflake, Postgres.
+* The package creates stateful entities for users, sessions, to enable describing the event stream and answer questions like "What was the source of the user who clicked out on X".
 * The package contains a small configurator that enables you to bring event parameters (which are their own table) into the event row for simpler usage.
 
 
-## Installation
+## Install `dbt` model
 
 dbt version required: >=1.7.0
 Include the following in your `packages.yml` file:
 ```yaml
 packages:
-  - package: dlthub/dbt_ga4
+  - package: dlthub/ga4_event_export
     version: 0.1.0
 ```
 Run dbt deps to install the package.
@@ -46,6 +46,15 @@ The primary outputs of this package are fact and dimension tables as listed belo
 | Fact      | fact_events        | This model provides a comprehensive view of user engagement, enabling analysis of revenue, acquisition channels, session engagement, and scroll behavior.                                                                                                                                                                                                                                                             | 
 | Fact      | fact_sessions      | The model extracts key engagement metrics. This model provides insights into session-level engagement, capturing details about session activity, duration, and entrances, facilitating analysis of user interactions and session quality.                                                                                                                                                                             | 
 
+## Database support
+We support 
+- Redshift, 
+- BigQuery,
+- Snowflake, 
+- Athena, 
+- Postgres.
+
+
 ## How to use this package
 
 We recommend that you add this package as a dependence to your own DBT package.
@@ -63,13 +72,6 @@ The columns name for `extra_event_params` and `paid_sources` may be configured i
 dbt run --profiles-dir . --vars '{schema_name: <schema_name>, paid_sources: ["reddit.com", "youtube.com"], extra_event_params: ["page_referrer"]}' --fail-fast
 ```
 
-## Database support
-We support 
-- Redshift, 
-- BigQuery
-- Snowflake, 
-- Athena, 
-- Postgres.
 
 ### Configuration
 
@@ -79,6 +81,7 @@ Each profile requires a set of environment variables to be present. We recommend
 1. `ga4_schema_redshift` profile to connect to Redshift.
 2. `ga4_schema_bigquery` profile to connect to BigQuery.
 3. `ga4_schema_snowflake` profile to connect to Snowflake.
+4. 
 ...
 
 To use any of the profiles
@@ -96,5 +99,94 @@ To use any of the profiles
 3. Export the credentials into shell via `set -a && source .env && set +a`
 
 
+## How to run dlt pipeline
 
+The `bigquery_pipeline.py` is a [dlt](https://dlthub.com/docs/intro) pipeline,
+which loads your GA4 data for the last month from BigQuery database to [destination](https://dlthub.com/docs/dlt-ecosystem/destinations/).
 
+### Install `dlt`
+Install dlt with destination dependencies, e.g. [BigQuery](https://dlthub.com/docs/dlt-ecosystem/destinations/bigquery):
+
+```shell
+pip install dlt[bigquery]
+```
+or
+```shell
+pip install -r requirements.txt
+```
+
+> If you use [Redshift](https://dlthub.com/docs/dlt-ecosystem/destinations/redshift) as a destination, then run `pip install dlt[redshift]`. 
+> 
+> If you use [Snowflake](https://dlthub.com/docs/dlt-ecosystem/destinations/snowflake) as a destination, then run `pip install dlt[snowflake]`. 
+> 
+> If you use [Athena](https://dlthub.com/docs/dlt-ecosystem/destinations/athena) as a destination, then run `pip install dlt[athena]`. 
+> 
+> If you use [Postgres](https://dlthub.com/docs/dlt-ecosystem/destinations/postgres) as a destination, then run `pip install dlt[postgres]`. 
+
+More about installing dlt: [Installation](https://dlthub.com/docs/reference/installation).
+
+### Configuration
+
+In `.dlt` folder copy `example.secrets.toml` file to `secrets.toml`.  
+It's where you store sensitive information securely, like access tokens, private keys, etc. 
+Keep this file safe, do not commit it.
+
+**Credentials for source data**
+
+Add the BigQuery credentials for a database where you want to get your data from:
+```toml
+# BigQuery source configuration
+
+[sources.bigquery_pipeline]
+location = "US"
+[sources.bigquery_pipeline.credentials_info]
+project_id = "please set me up!"
+private_key = "please set me up!"
+client_email = "please set me up!"
+token_uri = "please set me up!"
+dataset_name = "please set me up!"
+table_name = "events"
+```
+
+**Credentials for destination**
+
+Add the destination credentials for a database where you want to upload your data:
+```toml
+# BigQuery destination configuration
+
+[destination.bigquery]
+location = "US"
+[destination.bigquery.credentials]
+project_id = "please set me up!"
+private_key = "please set me up!"
+client_email = "please set me up!"
+```
+
+Read more about configuration: [Secrets and Configs](https://dlthub.com/docs/general-usage/credentials/configuration). 
+
+### Run the pipeline
+
+Run the CLI script with defaults by executing the following command:
+```bash
+python bigquery_pipeline.py
+```
+Options:
+- `--pipeline_name` (required): Name of the pipeline. Defaults to "ga4_event_export_pipeline".
+- `--tables`: List of tables to process. Defaults to "events".
+- `--month`: Month for data processing. Defaults to last month.
+- `--year`: Year for data processing. Defaults to current year.
+- `--destination`: Destination for the pipeline. Defaults to "bigquery".
+- `--dataset`: Name of the dataset. Defaults to "ga4_event_export_dataset".
+- `--dbt_run_params`: Additional run parameters for dbt. Defaults to "--fail-fast --full-refresh".
+- `--dbt_additional_vars`: Additional variables for dbt. Defaults to None.
+- `--write_disposition`: dlt mode. The "replace" mode completely replaces the existing data in the destination with the new data, 
+  while the "append" mode adds the new data to the existing data in the destination. Defaults to "replace".
+
+**Example** 
+```shell
+python bigquery_pipeline.py --table events --month 11 --year 2023 \
+       --destination bigquery --dataset test_dataset --pipeline_name my_bigquery_pipeline \
+       --dbt_run_params "--fail-fast --full-refresh" --dbt_additional_vars "paid_sources=['reddit.com']" 
+```
+
+Read more about a running pipeline: [Run a pipeline.](https://dlthub.com/docs/walkthroughs/run-a-pipeline) 
