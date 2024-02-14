@@ -109,7 +109,7 @@ To use any of the profiles
 
 ## How to run the `dlt` pipeline
 
-The `bigquery_pipeline.py` is a [dlt](https://dlthub.com/docs/intro) pipeline,
+The [`bigquery_pipeline.py`](./bigquery_pipeline.py) is a [dlt](https://dlthub.com/docs/intro) pipeline,
 which loads your GA4 data for the last month from BigQuery database to [destination](https://dlthub.com/docs/dlt-ecosystem/destinations/).
 
 ### Install `dlt`
