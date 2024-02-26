@@ -1,10 +1,18 @@
 # Google Analytics Events dbt package
 
+The Google Analytics Events dbt package processes GA4 events data for analysis across various databases, not just BigQuery. 
+It includes a pipeline script for **data ingestion** from BigQuery, **normalizing** the data into relational tables for cross-database compatibility. 
+After normalization, the data is **loaded** into a chosen database like Redshift or Snowflake. 
+To use the dbt package, you install it and run it on the prepared data, enabling SQL queries across different databases. 
+The dbt package constructs **dimensional models** to facilitate analytics, providing insights into user behaviors and event interactions. 
+Customization options allow alignment with specific analytical needs, enhancing the data's utility for in-depth analysis.
+
+
 ## Use case of the package
 
 __You are using GA4 Events in a different database than Bigquery__
 * This package comes with its own ingestion pipeline to copy data from GA4 Bigquery events export into one of [these](https://dlthub.com/docs/dlt-ecosystem/destinations/) destinations.
-* This pipeline normalises nested structures from bigquery into relational tables before loading, to enable db-agnostic, universal sql queries.
+* This pipeline normalizes nested structures from bigquery into relational tables before loading, to enable db-agnostic, universal sql queries.
 * The dbt package uses cross-db compatibility macros and was tested on Redshift, Athena, Snowflake, Postgres.
 * The package creates stateful entities for users, sessions, to enable describing the event stream and answer questions like "What was the source of the user who clicked out on X".
 * The package contains a small configurator that enables you to bring event parameters (which are their own table) into the event row for simpler usage.
@@ -37,9 +45,7 @@ check out the [dbt Documentation](https://docs.getdbt.com/docs/package-managemen
 
 ## Models overview
 
-This dbt package:
-
-Contains a `dbt` dimensional models based on Google Analytics data from BigQuery source.
+This dbt package contains a `dbt` dimensional models based on Google Analytics data from BigQuery source.
 The main use of this package is to provide a stable cross-database dimensional model that will provide useful insights.
 Models
 The primary outputs of this package are fact and dimension tables as listed below. There are several intermediate stage models used to create these models. 
@@ -65,7 +71,7 @@ We support
 
 ## How to use this package
 
-We recommend that you add this package as a dependency to your own DBT package.
+We recommend that you add this package as a dependency to your own `dbt` package.
 
 ### Package customizations
 
@@ -89,7 +95,7 @@ Each profile requires a set of environment variables to be present. We recommend
 1. `ga4_schema_redshift` profile to connect to Redshift.
 2. `ga4_schema_bigquery` profile to connect to BigQuery.
 3. `ga4_schema_snowflake` profile to connect to Snowflake.
-4. 
+
 ...
 
 To use any of the profiles
@@ -109,8 +115,21 @@ To use any of the profiles
 
 ## How to run the `dlt` pipeline
 
+The package includes a pipeline script (`bigquery_pipeline.py`) to **ingest** GA4 events data from a BigQuery source. 
+This pipeline is necessary when your analytics data resides in a different database than BigQuery, 
+allowing you to migrate this data to a supported destination database. 
+
+The pipeline **normalizes** nested structures found in the BigQuery export into relational tables. 
+This process transforms complex JSON-like structures into a format that is understandable and usable across different databases, 
+ensuring that the data is ready for cross-database SQL queries. 
+
+The normalized data is then **loaded** into one of the supported destinations (e.g., Redshift, Athena, Snowflake, Postgres) 
+as specified in the pipeline's configuration. 
+The choice of destination depends on your analytical stack and preferences.
+
+
 The [`bigquery_pipeline.py`](./bigquery_pipeline.py) is a [dlt](https://dlthub.com/docs/intro) pipeline,
-which loads your GA4 data for the last month from BigQuery database to [destination](https://dlthub.com/docs/dlt-ecosystem/destinations/).
+which loads your GA4 data for the last month from BigQuery database to a [destination](https://dlthub.com/docs/dlt-ecosystem/destinations/).
 
 ### Install `dlt`
 Install dlt with destination dependencies, e.g. [BigQuery](https://dlthub.com/docs/dlt-ecosystem/destinations/bigquery):
