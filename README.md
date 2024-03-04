@@ -39,10 +39,6 @@ To load the data that this model depends on, follow this section: [How to run th
 For more information on using packages in your dbt project, 
 check out the [dbt Documentation](https://docs.getdbt.com/docs/package-management).
 
-
-
-
-
 ## Models overview
 
 This dbt package contains a `dbt` dimensional models based on Google Analytics data from BigQuery source.
@@ -217,3 +213,27 @@ python bigquery_pipeline.py --table events --month 11 --year 2023 \
 ```
 
 Read more about a running pipeline: [Run a pipeline.](https://dlthub.com/docs/walkthroughs/run-a-pipeline) 
+
+
+## Database schema diagrams
+Here are the database diagrams for the GA4 data transformation stages, from raw to modeled:
+
+1. The schema of data exported from GA4 to BigQuery:
+
+   ![picture1](https://storage.googleapis.com/dlt-blog-images/GA4_export_to_BQ.svg)
+
+   Here's the link to the DB diagram: [link](https://dbdiagram.io/d/GA4_export_to_BQ-65e5c897cd45b569fb783939).
+
+1. The schema of data exported from BigQuery export to data warehouse using `dlt` pipeline:
+
+   ![picture2](https://storage.googleapis.com/dlt-blog-images/GA4_export_to_BQ.svg)
+
+   Here's the link to the DB diagram: [link](https://dbdiagram.io/d/GA4_Export_Dataset-65e5c09bcd45b569fb777719).
+
+1. The schema of the data modelled using dbt transform.
+
+   ![picture3](https://storage.googleapis.com/dlt-blog-images/GA4_modelled.svg)
+
+   Here's the link to the DB diagram: [link](https://dbdiagram.io/d/GA4_modelled-65e5c12ccd45b569fb7781e0).
+
+
