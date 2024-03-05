@@ -226,9 +226,9 @@ Here are the database diagrams for the GA4 data transformation stages, from raw 
 
 1. The schema of data exported from BigQuery export to data warehouse using `dlt` pipeline:
 
-   ![picture2](https://storage.googleapis.com/dlt-blog-images/GA4_export_to_BQ.svg)
+   ![picture2](https://storage.googleapis.com/dlt-blog-images/GA4_export_to_Bigquery.svg)
 
-   Here's the link to the DB diagram: [link](https://dbdiagram.io/d/GA4_Export_Dataset-65e5c09bcd45b569fb777719).
+   Here's the link to the DB diagram: [link](https://dbdiagram.io/d/GA4_export_to_Bigquery-65e6899dcd45b569fb857716).
 
 1. The schema of the data modelled using dbt transform.
 
