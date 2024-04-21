@@ -5,6 +5,7 @@
 name: 'ga4_event_export'
 version: '0.1.0'
 config-version: 2
+require-dbt-version: [">=1.7.0", "<2.0.0"]
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'ga4_schema_redshift'
