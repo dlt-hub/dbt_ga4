@@ -72,14 +72,14 @@ We recommend that you add this package as a dependency to your own `dbt` package
 ### Package customizations
 
 We advise you to customize your package if you
-- Want to specify your own paid sources with `paid_sources`. 
+- Want to specify your own paid sources with `ga4_data_paid_sources`. 
   For instance, if Google marks Reddit ads as organic, you can define them as paid.
-- Want to unpack more event parameters with `extra_event_params`.
+- Want to unpack more event parameters with `ga4_data_extra_event_params`.
 
-The columns name for `extra_event_params` and `paid_sources` may be configured in `dbt_project.yml` or by passing the variables in command line:
+The columns name for `ga4_data_extra_event_params` and `ga4_data_paid_sources` may be configured in `dbt_project.yml` or by passing the variables in command line:
 
 ```shell
-dbt run --profiles-dir . --vars '{schema_name: <schema_name>, paid_sources: ["reddit.com", "youtube.com"], extra_event_params: ["page_referrer"]}' --fail-fast
+dbt run --profiles-dir . --vars '{ga4_data_schema_name: <schema_name>, ga4_data_paid_sources: ["reddit.com", "youtube.com"], ga4_data_extra_event_params: ["page_referrer"]}' --fail-fast
 ```
 
 
@@ -209,7 +209,7 @@ Options:
 ```shell
 python bigquery_pipeline.py --table events --month 11 --year 2023 \
        --destination bigquery --dataset test_dataset --pipeline_name my_bigquery_pipeline \
-       --dbt_run_params "--fail-fast --full-refresh" --dbt_additional_vars "paid_sources=['reddit.com']" 
+       --dbt_run_params "--fail-fast --full-refresh" --dbt_additional_vars "ga4_data_paid_sources=['reddit.com']" 
 ```
 
 Read more about a running pipeline: [Run a pipeline.](https://dlthub.com/docs/walkthroughs/run-a-pipeline) 

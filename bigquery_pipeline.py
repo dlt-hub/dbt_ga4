@@ -54,7 +54,7 @@ def transform_data(pipeline, dbt_run_params, dbt_additional_vars: Optional[dict]
     #       and the `venv` argument to dlt.dbt.package()
     venv = dlt.dbt.get_venv(pipeline)
     dbt = dlt.dbt.package(pipeline, "dbt_transform", venv=venv)
-    additional_vars = {"schema_name": pipeline.dataset_name}
+    additional_vars = {"ga4_data_schema_name": pipeline.dataset_name}
     if dbt_additional_vars:
         additional_vars.update(dbt_additional_vars)
     # run the models and collect any info

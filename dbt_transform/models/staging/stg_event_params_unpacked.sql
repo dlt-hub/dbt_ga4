@@ -43,7 +43,7 @@ SELECT
         END
     ) as {{ param }}
     {% endfor %}
-    {% for param in var('extra_event_params') %}
+    {% for param in var('ga4_data_extra_event_params') %}
     , MAX(
         CASE
             WHEN event_name = '{{ param }}' THEN param_value
