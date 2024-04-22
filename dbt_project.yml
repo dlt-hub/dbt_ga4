@@ -11,9 +11,9 @@ require-dbt-version: [">=1.7.0", "<2.0.0"]
 profile: 'ga4_schema_redshift'
 
 vars:
-  schema_name: GA4_DATA
-  paid_sources: ['reddit.com']
-  extra_event_params:
+  ga4_data_schema_name: GA4_DATA
+  ga4_data_paid_sources: ['reddit.com']
+  ga4_data_extra_event_params:
     - 'page_referrer'
 
 # These configurations specify where dbt should look for different types of files.

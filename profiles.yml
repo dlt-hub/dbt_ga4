@@ -8,7 +8,7 @@ ga4_schema_redshift:
       password: "{{ env_var('PG_PASSWORD') }}"
       port: "{{ env_var('PG_PORT', 5439) | as_number }}"
       dbname: "{{ env_var('PG_DATABASE_NAME') }}"
-      schema: "{{ var('schema_name') }}"
+      schema: "{{ var('ga4_data_schema_name') }}"
       threads: 4
       keepalives_idle: 0 # default 0, indicating the system default
       connect_timeout: 10 # default 10 seconds
@@ -30,7 +30,7 @@ ga4_schema_snowflake:
       role: "{{ env_var('SF_ROLE') }}"
       database: "{{ env_var('SF_DATABASE_NAME') }}"
       warehouse: "{{ env_var('SF_WAREHOUSE') }}"
-      schema:  "{{ var('schema_name') }}"
+      schema:  "{{ var('ga4_data_schema_name') }}"
       threads: 4
 
       # optional
@@ -59,7 +59,7 @@ ga4_schema_snowflake_key_pair:
       role: "{{ env_var('SF_ROLE') }}"
       database: "{{ env_var('SF_DATABASE_NAME') }}"
       warehouse: "{{ env_var('SF_WAREHOUSE') }}"
-      schema:  "{{ var('schema_name') }}"
+      schema:  "{{ var('ga4_data_schema_name') }}"
       threads: 4
 
       # optional
@@ -76,7 +76,7 @@ ga4_schema_bigquery:
       type: bigquery
       method: service-account-json
       project: "{{ env_var('BQ_PROJECT_ID') }}"
-      schema: "{{ var('schema_name') }}"
+      schema: "{{ var('ga4_data_schema_name') }}"
       keyfile_json:
         type: service_account
         project_id: "{{ env_var('BQ_PROJECT_ID') }}"
@@ -94,7 +94,7 @@ ga4_schema_bigquery_service_file:
       type: bigquery
       method: service-account
       project: "{{ env_var('BQ_PROJECT_ID') }}"
-      schema: "{{ var('schema_name') }}"
+      schema: "{{ var('ga4_data_schema_name') }}"
       keyfile: "{{ env_var('BQ_KEY_FILE_PATH') }}"
       threads: 4
       keepalives_idle: 0 # default 0, indicating the system default
